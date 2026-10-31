@@ -1,0 +1,2 @@
+a7af3e79cfa7a52eae6f93cd70c15e331ddd73459af0f4ae4156b2a7e223b45f  uvoiceime.efi
+7a4ff49b54d6f90ac98eae732cc932eaefea8aae23f1b8794eebff57b9fa397d  uvoiceimehost.efi

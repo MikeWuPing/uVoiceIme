@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>uVoiceIme 产品手册</title>
+<style>
+:root{
+  --bg:#ffffff; --panel:#f7f7f5; --line:#e2e0da; --line2:#cfccc4;
+  --ink:#24241f; --ink2:#5b5a54; --ink3:#8a887f;
+  --accent:#2b6ef4; --accent2:#9c42ce; --code:#f2f1ee;
+  --mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+     font-size:15px;line-height:1.78;-webkit-font-smoothing:antialiased}
+.wrap{display:flex;align-items:flex-start;max-width:1180px;margin:0 auto}
+nav{position:sticky;top:0;width:236px;flex:0 0 236px;height:100vh;overflow-y:auto;
+    padding:28px 18px 40px;border-right:1px solid var(--line);font-size:13.5px}
+nav .brand{font-size:19px;font-weight:600;letter-spacing:.02em;margin-bottom:2px}
+nav .brand span{background:linear-gradient(90deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+nav .meta{color:var(--ink3);font-size:12px;margin-bottom:18px;font-family:var(--mono)}
+nav ol{list-style:none;margin:0;padding:0}
+nav li{margin:1px 0}
+nav a{display:block;padding:6px 9px;border-radius:6px;color:var(--ink2);text-decoration:none;
+      border-left:2px solid transparent}
+nav a:hover{background:var(--panel);color:var(--ink)}
+nav a.on{background:var(--panel);color:var(--ink);border-left-color:var(--accent);font-weight:600}
+nav a.sub{padding-left:22px;font-size:12.5px;color:var(--ink3)}
+main{flex:1 1 auto;min-width:0;padding:38px 46px 96px;max-width:940px}
+h1{font-size:30px;font-weight:600;margin:0 0 6px;letter-spacing:-.01em}
+h2{font-size:21px;font-weight:600;margin:52px 0 14px;padding-bottom:8px;
+   border-bottom:1px solid var(--line);scroll-margin-top:16px}
+h3{font-size:16px;font-weight:600;margin:30px 0 10px;scroll-margin-top:16px}
+p{margin:0 0 12px}
+strong{font-weight:600}
+code{font-family:var(--mono);font-size:12.5px;background:var(--code);
+     padding:1.5px 5px;border-radius:4px}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;
+    padding:14px 16px;overflow-x:auto;margin:6px 0 16px}
+pre code{background:none;padding:0;font-size:12.5px;line-height:1.65;white-space:pre}
+table{border-collapse:collapse;width:100%;margin:6px 0 18px;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+th{background:var(--panel);font-weight:600;white-space:nowrap}
+tbody tr:nth-child(even){background:#fbfbfa}
+figure{margin:14px 0 22px;text-align:center}
+figure img{max-width:100%;border:1px solid var(--line);border-radius:8px;
+           box-shadow:0 6px 24px rgba(0,0,0,.06);background:#fff}
+figcaption{margin-top:9px;color:var(--ink3);font-size:12.5px;line-height:1.6}
+ol,ul{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+.lead{font-size:16.5px;color:var(--ink2)}
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);
+       color:var(--ink3);font-size:12.5px}
+@media (max-width:860px){
+  nav{display:none}
+  main{padding:26px 20px 70px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <div class="brand"><span>uVoiceIme</span> 产品手册</div>
+  <div class="meta">v0.1.0.231</div>
+  <ol>
+<a href="#为什么需要它">为什么需要它</a>
+<a href="#运行条件">运行条件</a>
+<a href="#界面">界面</a>
+<a href="#状态芯片" class="sub">状态芯片</a>
+<a href="#电平波形" class="sub">电平波形</a>
+<a href="#操作">操作</a>
+<a href="#语音识别">语音识别</a>
+<a href="#输入到别的程序里" class="sub">输入到别的程序里</a>
+<a href="#设置页">设置页</a>
+<a href="#关于页">关于页</a>
+<a href="#配置文件">配置文件</a>
+<a href="#加载方式">加载方式</a>
+<a href="#已知限制">已知限制</a>
+<a href="#排查">排查</a>
+<a href="#版本与授权">版本与授权</a>
+  </ol>
+</nav>
+<main>
+<h1>uVoiceIme 产品手册</h1>
+<p class="lead">uVoiceIme 是给 UEFI Shell 用的语音输入法。对着麦克风说话，识别出来的文字按普通按键落进当前前台程序，对它上面的程序来说，这和打字没有区别。</p>
+<h2 id="为什么需要它">为什么需要它</h2>
+<p>UEFI Shell 里没有输入法。能敲的只有 ASCII，中文、长句、标点都无从下手。想在固件环境里输入一段中文，要么另外接一台机器，要么先在纸上抄好再一个个敲进去。</p>
+<p>uVoiceIme 把这件事挪到固件层解决：接管控制台，采集麦克风，把语音送到云端识别，再把结果按字符注入控制台输入队列。Shell、自研的 UEFI 应用、诊断工具，都不需要改一行代码。</p>
+<h2 id="运行条件">运行条件</h2>
+<table><thead><tr><th>项</th><th>要求</th></tr></thead><tbody><tr><td>固件环境</td><td>有 GOP 图形输出的 UEFI 环境，能显示中文（自带字库，不依赖固件字体）</td></tr><tr><td>声卡</td><td>AC&#x27;97 兼容。这是本项目验证过的唯一一种，QEMU 默认提供</td></tr><tr><td>网络</td><td>能访问 <code>api.minimaxi.com</code> 的 HTTPS 接口</td></tr><tr><td>识别服务</td><td>自备 MiniMax 账号与 API key，按音频时长计费</td></tr><tr><td>输入设备</td><td>键盘即可；有鼠标或触摸板可以点按钮、拖窗口</td></tr></tbody></table>
+<h2 id="界面">界面</h2>
+<figure><img src="images/overlay.png" alt="浮窗识别视图">
+<figcaption>浮窗识别视图</figcaption>
+</figure>
+<p>浮窗是一块 520 像素宽的常驻面板，压在宿主程序上面，位置可拖。自上而下是这几样东西：</p>
+<table><thead><tr><th>元素</th><th>位置</th><th>作用</th></tr></thead><tbody><tr><td>渐变条</td><td>顶部</td><td>按住拖动窗口</td></tr><tr><td>状态芯片</td><td>左上</td><td>当前状态，一个字</td></tr><tr><td>麦克风按钮</td><td>水平居中</td><td>开关采集，点亮表示在听</td></tr><tr><td>i 与齿轮</td><td>右上</td><td>关于页、设置页</td></tr><tr><td>识别文字</td><td>中部</td><td>最近一次识别结果</td></tr><tr><td>电平波形</td><td>下部</td><td>实时输入电平，60 格，每格 20 毫秒</td></tr><tr><td>提示行</td><td>底部</td><td>当前可用热键</td></tr></tbody></table>
+<h3 id="状态芯片">状态芯片</h3>
+<p>芯片只有一个字，一眼能判断程序在做什么。</p>
+<table><thead><tr><th>字</th><th>含义</th></tr></thead><tbody><tr><td>待</td><td>空闲，等待开口</td></tr><tr><td>听</td><td>正在采集，VAD 在判句</td></tr><tr><td>识</td><td>已断句，正在等云端返回</td></tr><tr><td>误</td><td>出错，通常是网络或密钥</td></tr></tbody></table>
+<h3 id="电平波形">电平波形</h3>
+<figure><img src="images/wave.png" alt="电平波形">
+<figcaption>电平波形</figcaption>
+</figure>
+<p>波形是判断“麦克风到底有没有收到声音”的唯一依据。它围绕中线上下对称生长，越响柱子越高，静音时就是中线附近的一条直线。</p>
+<p>这一点很要紧：语音识别失败的时候，先看波形。波形平着，问题在麦克风那头，不在识别那边。说话时波形跟着起伏，才说明音频真的进了固件。</p>
+<h2 id="操作">操作</h2>
+<table><thead><tr><th>键</th><th>作用</th></tr></thead><tbody><tr><td>F9</td><td>显示或隐藏浮窗</td></tr><tr><td>F10</td><td>打开设置页</td></tr><tr><td>F11</td><td>打开关于页</td></tr><tr><td>F12</td><td>麦克风开或关</td></tr></tbody></table>
+<p>热键用功能键而不是 Ctrl 组合，是因为 OVMF 上报的 <code>KeyShiftState</code> 恒为零，修饰键状态拿不到。功能键在扫描码里，不受这个影响。</p>
+<p>鼠标可以直接点浮窗上的按钮，也可以按住顶部渐变条拖动窗口。绝对指针和相对指针两种设备都支持。</p>
+<h2 id="语音识别">语音识别</h2>
+<figure><img src="images/demo.gif" alt="语音识别演示">
+<figcaption>语音识别演示</figcaption>
+</figure>
+<p>上面这段是实机录制，输入的是合成语音“从前有座山，山上有个庙，庙里有个老和尚。”。它走的是与真实麦克风完全相同的链路：采集、降采样、VAD 断句、云端识别、注入控制台。用合成音只是为了让每次演示的音频一致，不是旁路。</p>
+<p>识别结果同时出现在两个地方，浮窗里一份，宿主程序里一份：</p>
+<figure><img src="images/overlay-context.png" alt="整屏上下文">
+<figcaption>整屏上下文</figcaption>
+</figure>
+<p>宿主程序左下角的 <code>received=20</code> 是它收到的字符数，与这句话的 20 个字符对得上。</p>
+<p>一次识别经过这几步：</p>
+<ol><li>AC&#x27;97 以 48 kHz 双声道常驻采集，环形缓冲可兜住 8 秒音频，用来跨过识别期间的停顿。</li><li>降采样成 16 kHz 单声道，每 20 毫秒一帧。</li><li>VAD 按帧能量判定说话与静音，连续有声即开口，连续静音 600 毫秒即断句。</li><li>整段音频以 multipart 形式 POST 到 MiniMax 的 <code>speech_to_text</code> 接口。</li><li>返回的文本按 UTF-8 逐个码点转成按键注入，宿主读到的就是普通字符。</li></ol>
+<h3 id="输入到别的程序里">输入到别的程序里</h3>
+<figure><img src="images/demo-input.gif" alt="输入到宿主程序">
+<figcaption>输入到宿主程序</figcaption>
+</figure>
+<p>同一套链路，换一个前台程序。附带的宿主程序只做一件事：把收到的字符显示出来。语音识别完的句子逐字出现在它的接收区里，和键盘敲进去的没有区别。</p>
+<p>上面这段是三句话分开说的：每说完一句，浮窗先出结果，随后那几个字落进宿主程序；等下一句开口，再来一轮。左下角的 <code>received=20</code> 是它累计收到的字符数，与三句话加起来一样多。</p>
+<h2 id="设置页">设置页</h2>
+<figure><img src="images/settings.png" alt="设置页">
+<figcaption>设置页</figcaption>
+</figure>
+<p>八项设置，两种改法：</p>
+<ul><li>上下键选行，左右键改枚举</li><li>文本项直接打字修改，Backspace 删除</li></ul>
+<p>改完按 Enter 保存并退出。URL、API key、模型名这三项会写回配置文件；其余五项是枚举，改了就生效。</p>
+<table><thead><tr><th>设置项</th><th>说明</th></tr></thead><tbody><tr><td>服务 URL</td><td>识别接口地址，默认 <code>https://api.minimaxi.com/v1/speech_to_text</code></td></tr><tr><td>API key</td><td>MiniMax 的密钥，<code>sk-</code> 开头</td></tr><tr><td>模型名</td><td>默认 <code>asr-1.0</code></td></tr><tr><td>语言</td><td>默认自动检测，也可指定 zh、yue、en、ja、ko 等</td></tr><tr><td>窗口背景颜色</td><td>六套配色，1/6 到 6/6</td></tr><tr><td>字体大小</td><td>14 或 16</td></tr><tr><td>窗口位置</td><td>居中、左下、右下</td></tr><tr><td>常驻显示</td><td>是或否</td></tr></tbody></table>
+<h2 id="关于页">关于页</h2>
+<figure><img src="images/about.png" alt="关于页">
+<figcaption>关于页</figcaption>
+</figure>
+<p>关于页显示版本、作者、当前识别服务与授权说明。识别服务那一行会标出 key 是否已经填好。</p>
+<h2 id="配置文件">配置文件</h2>
+<p><code>uvoiceime.cfg</code>，键值对，一行一个，与 <code>uvoiceime.efi</code> 放在同一个目录：</p>
+<pre><code>url=https://api.minimaxi.com/v1/speech_to_text
+api-key=
+model=asr-1.0
+language=
+bg=0
+font=16
+placement=center
+always-on=off</code></pre>
+<p><code>api-key</code> 就在这份文件里，以明文存放。填上之后保存，重启输入法生效。这份文件不要外传。</p>
+<p>旧格式的文件名是 <code>voiceime.cfg</code>，只在升级时用来搬运 API key，搬到新文件之后就没人再读它。</p>
+<h2 id="加载方式">加载方式</h2>
+<p><strong>在 UEFI Shell 里</strong>（顺序是强制的，驱动必须先于任何需要语音输入的程序）：</p>
+<pre><code>Shell&gt; fs0:
+FS0:\&gt; load uvoiceime.efi        :: 装上并常驻，屏幕底部随即浮出浮窗
+FS0:\&gt; uvoiceimehost.efi         :: 再启动需要输入的程序（这里用附带的宿主程序）</code></pre>
+<p>不能直接敲 <code>uvoiceime.efi</code> 回车。它是驱动，Shell 只派发应用镜像；驱动由 <code>load</code>、启动项或固件的 dispatcher 启动。放进 <code>startup.nsh</code> 时那一时刻还没有当前目录，必须写绝对路径 <code>load fs0:\uvoiceime.efi</code>。</p>
+<p><strong>合入 BIOS 或固件</strong>，三种形态任选：</p>
+<ol><li>Shell 里 <code>load</code>，最省事，U 盘维护环境首选。</li><li>建 <code>Driver####</code> 或 <code>Boot####</code> 启动项指向 <code>uvoiceime.efi</code>，固件按文件路径加载，连 Shell 都不需要。</li><li>编进固件卷，由 DXE dispatcher 自动加载并常驻，磁盘上什么都不用放。这一条有个硬性前提：给驱动写 <code>[Depex]</code>，否则它会在 GOP 与控制台输入就绪之前被调度、装不出窗口然后被卸载。</li></ol>
+<pre><code>[Depex]
+  gEfiGraphicsOutputProtocolGuid AND gEfiSimpleTextInProtocolGuid</code></pre>
+<p>卸载：用 <code>dh</code> 找到驱动的 image handle，再 <code>unload &lt;编号&gt;</code>。</p>
+<h2 id="已知限制">已知限制</h2>
+<p><strong>刚开麦就说，开头会丢。</strong> 前 1.28 秒用于估计环境噪声底，这期间不确认语音起点。所以加载输入法之后，稍等一下再开口。</p>
+<p><strong>识别期间按键延后。</strong> 识别是阻塞的 HTTPS 请求，一次 3 到 5 秒。这期间界面仍在刷新，按键也会被排空并生效，但新的语音要等这一次返回之后才处理。</p>
+<p><strong>帧率低的宿主程序会拖慢采集。</strong> 采集挂在读键盘这条链上。桌面宿主是紧循环，一秒能泵几百次；而一帧重绘要三百多毫秒的程序，一帧只能泵十几次，勉强追平实时。这种情况下长句会被切成小段，识别出来是半句。</p>
+<p><strong>麦克风必须有信号。</strong> 波形平着就是没信号，先查插头与物理静音开关，再怀疑软件。</p>
+<p><strong>只支持 AC&#x27;97。</strong> 这是 QEMU 默认提供的声卡，也是本项目验证过的唯一一种。其它声卡上的采集尚未接入。</p>
+<h2 id="排查">排查</h2>
+<p>先看波形，再看日志。</p>
+<p>波形平着不动，说明音频没进固件，问题在麦克风、插头或声卡初始化的某一环，跟云端识别没有关系。波形跟着说话起伏，才轮到查识别那一侧。</p>
+<p>串口日志里这几行能定位绝大多数问题：</p>
+<table><thead><tr><th>日志</th><th>含义</th></tr></thead><tbody><tr><td><code>the microphone is up</code></td><td>采集启动成功</td></tr><tr><td><code>level = -34 dB</code></td><td>每帧电平，正常说话在 -50 到 -20 之间</td></tr><tr><td><code>a speech segment of N bytes ended</code></td><td>断出了一句，N 太小说明被切碎</td></tr><tr><td><code>recognised: N chars</code></td><td>云端返回的字节数，0 说明那段里没有人声</td></tr><tr><td><code>HTTP 200</code></td><td>请求通了，问题不在网络</td></tr></tbody></table>
+<p>状态芯片停在“误”，通常是密钥没填对、账户欠费，或者网络出不去。先换一台机器用同一个 key 试一次，就能分清是哪一头。</p>
+<h2 id="版本与授权">版本与授权</h2>
+<p>当前版本 0.1.0+231。</p>
+<p>本软件为专有软件，不开源。对外发布的二进制品免费授权个人用户用于个人、非商业用途；商业用途需另行取得作者书面授权。识别用的云端服务由用户自备账号，相关费用与数据处理不在本软件的授权范围内。</p>
+<p>Author : Mike Wu</p>
+<footer>© Mike Wu　·　专有软件，个人用户免费使用，商用需取得作者书面授权。</footer>
+</main>
+</div>
+<script>
+(function(){
+  var heads=[].slice.call(document.querySelectorAll('main h2[id],main h3[id]'));
+  var links=[].slice.call(document.querySelectorAll('nav a'));
+  var map={};
+  links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+  function onScroll(){
+    var y=window.scrollY+120, cur=null;
+    heads.forEach(function(h){ if(h.offsetTop<=y) cur=h.id; });
+    links.forEach(function(a){a.classList.remove('on');});
+    if(cur&&map[cur]) map[cur].classList.add('on');
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>

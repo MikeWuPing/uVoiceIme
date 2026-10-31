@@ -1,0 +1,122 @@
+uVoiceIme 许可条款
+Copyright (c) 2026 Mike Wu. All rights reserved.
+保留所有权利。
+
+════════════════════════════════════════════════════════════════════════
+中文（与英文有歧义时，以本中文文本为准）
+════════════════════════════════════════════════════════════════════════
+
+uVoiceIme 是**专有软件，不开源**。
+
+1. 源代码
+   本项目的源代码、构建脚本与开发文档为作者的未公开专有作品。作者未授予任何
+   复制、修改、编译、分发、再许可、公开传播或用于衍生作品的权利。未经作者事先
+   书面许可，不得将其全部或部分提供给第三方。
+
+2. 二进制品：个人用户免费
+   作者对外发布的 uVoiceIme 可执行镜像（`*.efi` 及其发行包）**免费授权个人用户
+   用于个人、非商业用途**。在此范围内，你可以自由下载、安装、运行，并在自己
+   拥有的设备之间转移副本。
+
+3. 商业用途需另行授权
+   任何商业用途均需事先取得作者的书面商业授权，包括但不限于：随产品、硬件或
+   服务分发或预装；作为收费服务的一部分提供；在企业、机构或组织内部批量或以
+   生产目的部署使用；用于提供外包、集成、技术支持等有偿服务。
+
+4. 再分发
+   不得将二进制品重新打包、改名、拆分、收费转售，或声称对其拥有权利。发行包
+   应保持原样，并保留本许可文件与版权声明。
+
+5. 语音识别服务与网络
+   本软件自身不含语音识别引擎。识别依赖你自行配置的第三方云端服务（当前实现
+   为 MiniMax 的 `asr-1.0` 接口），你需要自备账号与密钥，并自行遵守该服务商的
+   条款。该服务产生的费用、可用性、数据处理方式与识别质量不在本许可的范围内，
+   作者的担保与责任亦不延及该服务。你的密钥以明文保存在本机的配置文件里，由你
+   自行保管。
+
+6. 数据与隐私
+   被识别的音频会发送到你在配置中指定的识别服务。本软件不收集、不上传任何
+   其他数据，也不含遥测。
+
+7. 第三方组件
+   二进制品中包含以 MIT 许可发布的图形库 LVGL 及其 UEFI 移植层，相关版权归其
+   作者，MIT 条款不受本许可影响。构建与验证使用到的 EDK2、QEMU、OVMF 与
+   Visual Studio 均为各自独立的开源或商业产品，各自适用其原有许可。
+
+8. 无担保与责任限制
+   本软件按"现状"提供，不附带任何明示或默示的担保，包括但不限于适销性、
+   特定用途适用性与不侵权的担保。在任何情况下，作者均不对因使用或无法使用
+   本软件而产生的任何直接、间接、附带或后果性损失（包括数据丢失、设备损坏、
+   业务中断或识别错误造成的损失）承担责任。
+
+9. 终止
+   违反上述任一条款即自动终止本许可授予的权利。终止后应停止使用并删除全部
+   副本。
+
+════════════════════════════════════════════════════════════════════════
+English (the Chinese text above prevails in case of any conflict)
+════════════════════════════════════════════════════════════════════════
+
+uVoiceIme is **proprietary software and is not open source**.
+
+1. Source code
+   The source code, build scripts and development documentation of this project
+   are unpublished proprietary work of the author. No right is granted to copy,
+   modify, compile, distribute, sublicense, publicly communicate or use them to
+   create derivative works. They may not be passed on to a third party, in whole
+   or in part, without the author's prior written permission.
+
+2. Binary artefacts: free for individual users
+   The uVoiceIme executable images published by the author (`*.efi` and their
+   release packages) are **free for individual users for personal,
+   non-commercial use**. Within that scope you may download, install and run
+   them, and move copies between devices you own.
+
+3. Commercial use requires a separate licence
+   Any commercial use requires the author's prior written commercial licence,
+   including but not limited to: distributing or preloading the software with a
+   product, hardware or service; providing it as part of a paid service;
+   deploying it in bulk or for production purposes inside a company, institution
+   or organisation; and using it to deliver paid services such as outsourcing,
+   integration or support.
+
+4. Redistribution
+   Binary artefacts may not be repackaged, renamed, split up, resold for a fee,
+   or presented as someone else's work. Release packages must be passed on
+   unmodified, with this licence file and the copyright notice retained.
+
+5. Speech recognition service and network access
+   This software contains no speech recognition engine of its own. Recognition
+   depends on a third-party cloud service that you configure yourself (currently
+   MiniMax's `asr-1.0` endpoint); you supply the account and the key, and you
+   comply with that provider's terms. Costs, availability, data handling and
+   recognition quality of that service are outside the scope of this licence,
+   and the author's warranty and liability do not extend to it. Your key is kept
+   in clear text in a configuration file on your own machine, and is yours to
+   look after.
+
+6. Data and privacy
+   The audio being recognised is sent to the recognition service named in your
+   configuration. The software collects nothing else, uploads nothing else, and
+   contains no telemetry.
+
+7. Third-party components
+   The binaries include LVGL, the graphics library, and its UEFI port layer,
+   both released under the MIT licence; their copyright belongs to their
+   respective authors and the MIT terms are unaffected by this licence. EDK2,
+   QEMU, OVMF and Visual Studio, used for building and verification, are
+   independent open-source or commercial products under their own licences.
+
+8. No warranty and limitation of liability
+   This software is provided "as is", without warranties of any kind, express or
+   implied, including but not limited to merchantability, fitness for a
+   particular purpose and non-infringement. In no event shall the author be
+   liable for any direct, indirect, incidental or consequential damages arising
+   from the use of or inability to use this software, including data loss,
+   hardware damage, business interruption or losses caused by recognition
+   errors.
+
+9. Termination
+   A breach of any of the terms above terminates the rights granted by this
+   licence automatically. On termination you must stop using the software and
+   delete all copies.
